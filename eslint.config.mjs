@@ -1,4 +1,5 @@
 import nextConfig from 'eslint-config-next'
+import prettierConfig from 'eslint-config-prettier'
 import tailwind from 'eslint-plugin-tailwindcss'
 
 /** @type {import('eslint').Linter.Config[]} */
@@ -18,6 +19,7 @@ const config = [
       'tailwindcss/no-custom-classname': 'off',
     },
   },
+  prettierConfig,
   {
     ignores: ['.next/**', 'node_modules/**'],
   },
