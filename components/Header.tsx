@@ -24,16 +24,15 @@ const LEVEL_LABELS: Record<string, string> = {
 export default function Header({ onMenuClick }: { onMenuClick?: () => void }) {
   const router = useRouter()
   const [open, setOpen] = useState(false)
-  const [mounted, setMounted] = useState(false)
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<SearchEntry[]>([])
   const [activeIdx, setActiveIdx] = useState(-1)
   const [index, setIndex] = useState<Fuse<SearchEntry> | null>(null)
+  const [isMac] = useState(() => typeof navigator !== 'undefined' && /Mac|iPhone|iPad|iPod/.test(navigator.platform))
   const inputRef = useRef<HTMLInputElement>(null)
   const listRef = useRef<HTMLUListElement>(null)
 
   useEffect(() => {
-    setMounted(true)
     fetch('/search-index.json')
       .then(r => r.json())
       .then((data: SearchEntry[]) => {
@@ -219,12 +218,12 @@ export default function Header({ onMenuClick }: { onMenuClick?: () => void }) {
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
-          <span className="hidden sm:inline">검색...</span>
-          <span className="hidden sm:inline text-gray-600 font-mono">⌘K</span>
+          <span className="hidden sm:inline">검색 </span>
+          <span suppressHydrationWarning className="hidden font-mono text-gray-600 sm:inline">{isMac ? '⌘K' : 'Ctrl+K'}</span>
         </button>
       </header>
 
-      {mounted && open && createPortal(modal, document.body)}
+      {typeof window !== 'undefined' && open && createPortal(modal, document.body)}
     </>
   )
 }

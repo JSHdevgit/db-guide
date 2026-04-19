@@ -82,7 +82,6 @@ export default function HomePage() {
       </div>
 
       <footer className="text-center text-xs text-gray-400 pb-10">
-        운영자: <code className="bg-gray-100 px-1.5 py-0.5 rounded text-gray-600">/content</code> 폴더에 MD 파일 추가 후 재빌드하면 자동 반영됩니다.
       </footer>
     </div>
   )
