@@ -104,6 +104,46 @@
     "category": "SQL 기초"
   },
   {
+    "slug": "beginner/sql-basics/group-by-having",
+    "href": "/beginner/sql-basics/group-by-having",
+    "title": "GROUP BY와 HAVING으로 데이터 그룹화",
+    "description": "GROUP BY로 데이터를 묶고 HAVING으로 그룹 조건을 필터링하는 방법을 익힙니다.",
+    "level": "beginner",
+    "category": "SQL 기초"
+  },
+  {
+    "slug": "beginner/sql-basics/case-expressions",
+    "href": "/beginner/sql-basics/case-expressions",
+    "title": "CASE 표현식으로 조건부 값 처리",
+    "description": "CASE 표현식을 사용해 SQL 안에서 IF-ELSE 로직을 구현하는 방법을 배웁니다.",
+    "level": "beginner",
+    "category": "SQL 기초"
+  },
+  {
+    "slug": "beginner/sql-basics/string-functions",
+    "href": "/beginner/sql-basics/string-functions",
+    "title": "자주 쓰는 문자열 함수",
+    "description": "PostgreSQL에서 문자열을 다루는 주요 내장 함수들을 예제와 함께 익힙니다.",
+    "level": "beginner",
+    "category": "SQL 기초"
+  },
+  {
+    "slug": "beginner/sql-basics/date-functions",
+    "href": "/beginner/sql-basics/date-functions",
+    "title": "날짜와 시간 함수",
+    "description": "PostgreSQL에서 날짜·시간 데이터를 다루는 핵심 함수와 연산을 배웁니다.",
+    "level": "beginner",
+    "category": "SQL 기초"
+  },
+  {
+    "slug": "beginner/sql-basics/math-functions",
+    "href": "/beginner/sql-basics/math-functions",
+    "title": "수학 함수와 연산자",
+    "description": "PostgreSQL에서 숫자를 다루는 산술 연산자와 수학 함수를 예제와 함께 익힙니다.",
+    "level": "beginner",
+    "category": "SQL 기초"
+  },
+  {
     "slug": "beginner/schema-design/normalization",
     "href": "/beginner/schema-design/normalization",
     "title": "정규화란 무엇인가",
@@ -128,6 +168,30 @@
     "category": "스키마 설계"
   },
   {
+    "slug": "beginner/schema-design/constraints",
+    "href": "/beginner/schema-design/constraints",
+    "title": "제약조건 — UNIQUE, CHECK, NOT NULL",
+    "description": "데이터 무결성을 보장하는 제약조건의 종류와 사용법을 익힙니다.",
+    "level": "beginner",
+    "category": "스키마 설계"
+  },
+  {
+    "slug": "beginner/schema-design/table-relationships",
+    "href": "/beginner/schema-design/table-relationships",
+    "title": "테이블 관계 — 1:1, 1:N, N:M",
+    "description": "데이터베이스에서 테이블 간의 관계를 설계하고 표현하는 방법을 배웁니다.",
+    "level": "beginner",
+    "category": "스키마 설계"
+  },
+  {
+    "slug": "beginner/schema-design/indexes-intro",
+    "href": "/beginner/schema-design/indexes-intro",
+    "title": "인덱스 입문 — 검색을 빠르게",
+    "description": "인덱스의 개념과 원리를 이해하고 기본적인 인덱스를 생성하는 방법을 배웁니다.",
+    "level": "beginner",
+    "category": "스키마 설계"
+  },
+  {
     "slug": "beginner/postgresql-basics/install-connect",
     "href": "/beginner/postgresql-basics/install-connect",
     "title": "PostgreSQL 설치와 연결",
@@ -140,6 +204,30 @@
     "href": "/beginner/postgresql-basics/psql-commands",
     "title": "psql 필수 명령어",
     "description": "psql 터미널에서 자주 쓰는 메타 명령어와 팁",
+    "level": "beginner",
+    "category": "PostgreSQL 기초"
+  },
+  {
+    "slug": "beginner/postgresql-basics/create-database",
+    "href": "/beginner/postgresql-basics/create-database",
+    "title": "데이터베이스와 테이블 만들기",
+    "description": "PostgreSQL에서 데이터베이스와 테이블을 생성·수정·삭제하는 방법을 익힙니다.",
+    "level": "beginner",
+    "category": "PostgreSQL 기초"
+  },
+  {
+    "slug": "beginner/postgresql-basics/users-roles",
+    "href": "/beginner/postgresql-basics/users-roles",
+    "title": "사용자와 권한 관리",
+    "description": "PostgreSQL의 역할(Role) 시스템을 통해 사용자를 만들고 권한을 관리하는 방법을 배웁니다.",
+    "level": "beginner",
+    "category": "PostgreSQL 기초"
+  },
+  {
+    "slug": "beginner/postgresql-basics/basic-backup",
+    "href": "/beginner/postgresql-basics/basic-backup",
+    "title": "기본 백업과 복구",
+    "description": "pg_dump와 pg_restore를 사용해 데이터베이스를 백업하고 복구하는 기본 방법을 익힙니다.",
     "level": "beginner",
     "category": "PostgreSQL 기초"
   },
@@ -172,6 +260,30 @@
     "href": "/intermediate/advanced-queries/views-materialized",
     "title": "뷰와 Materialized View",
     "description": "복잡한 쿼리를 재사용하는 뷰, 성능을 위한 Materialized View",
+    "level": "intermediate",
+    "category": "고급 쿼리"
+  },
+  {
+    "slug": "intermediate/advanced-queries/union-operations",
+    "href": "/intermediate/advanced-queries/union-operations",
+    "title": "UNION과 집합 연산",
+    "description": "UNION, INTERSECT, EXCEPT로 여러 쿼리 결과를 합치거나 비교하는 방법을 배웁니다.",
+    "level": "intermediate",
+    "category": "고급 쿼리"
+  },
+  {
+    "slug": "intermediate/advanced-queries/array-operations",
+    "href": "/intermediate/advanced-queries/array-operations",
+    "title": "배열 타입과 연산",
+    "description": "PostgreSQL 배열 타입을 활용해 다중 값을 하나의 열에 저장하고 조작하는 방법을 배웁니다.",
+    "level": "intermediate",
+    "category": "고급 쿼리"
+  },
+  {
+    "slug": "intermediate/advanced-queries/pivot-crosstab",
+    "href": "/intermediate/advanced-queries/pivot-crosstab",
+    "title": "피벗 테이블과 CROSSTAB",
+    "description": "행 데이터를 열로 변환하는 피벗 기법과 tablefunc 확장의 crosstab 함수를 배웁니다.",
     "level": "intermediate",
     "category": "고급 쿼리"
   },
