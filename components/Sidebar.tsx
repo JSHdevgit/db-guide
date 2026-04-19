@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import type { ChapterMeta } from '@/lib/content'
 
 interface SidebarProps {
@@ -86,13 +86,14 @@ export default function Sidebar({ chapters, isOpen, onClose }: SidebarProps) {
 }
 
 function ReadDot({ slug }: { slug: string }) {
-  if (typeof window === 'undefined') return <span className="w-1.5 h-1.5 rounded-full bg-gray-700 shrink-0 mt-0.5" />
+  const [read, setRead] = useState(false)
 
-  let read = false
-  try {
-    const stored = JSON.parse(localStorage.getItem('dbguide_progress') || '{}')
-    read = !!stored[slug]
-  } catch {}
+  useEffect(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('dbguide_progress') || '{}')
+      setRead(!!stored[slug])
+    } catch {}
+  }, [slug])
 
   return (
     <span className={`w-1.5 h-1.5 rounded-full shrink-0 mt-0.5 ${read ? 'bg-green-500' : 'bg-gray-700'}`} />
