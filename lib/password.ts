@@ -9,12 +9,12 @@ function toHex(buf: ArrayBuffer): string {
     .join('')
 }
 
-function fromHex(hex: string): Uint8Array {
+function fromHex(hex: string): Uint8Array<ArrayBuffer> {
   const arr = hex.match(/.{2}/g)!
   return new Uint8Array(arr.map(b => parseInt(b, 16)))
 }
 
-async function deriveKey(password: string, salt: Uint8Array): Promise<ArrayBuffer> {
+async function deriveKey(password: string, salt: Uint8Array<ArrayBuffer>): Promise<ArrayBuffer> {
   const keyMaterial = await crypto.subtle.importKey(
     'raw',
     new TextEncoder().encode(password),
