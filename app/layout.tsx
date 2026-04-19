@@ -34,6 +34,9 @@ export const metadata: Metadata = {
     title: 'DBGuide — PostgreSQL & SQL 학습 가이드',
     description: '데이터베이스 입문부터 고급 튜닝까지. PostgreSQL과 SQL을 실무 예제로 배웁니다.',
   },
+  icons: {
+    icon: '/icon.svg',
+  },
   alternates: {
     canonical: SITE_URL,
   },
