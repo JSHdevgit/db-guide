@@ -29,7 +29,7 @@ export default function ChapterLayout({ siblings, headings, children }: Props) {
         <div className="flex min-w-0 flex-1">
           {/* 메인 콘텐츠 */}
           <main className="min-w-0 flex-1 overflow-y-auto">
-            <div className="mx-auto max-w-2xl px-6 py-8">
+            <div className="mx-auto max-w-4xl px-4 py-8">
               {children}
             </div>
           </main>

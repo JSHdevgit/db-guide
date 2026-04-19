@@ -5,6 +5,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { useRouter } from 'next/navigation'
 import Fuse from 'fuse.js'
+import { useVirtualizer } from '@tanstack/react-virtual'
 
 interface SearchEntry {
   slug: string
@@ -21,21 +22,25 @@ const LEVEL_LABELS: Record<string, string> = {
   advanced: '고급',
 }
 
+const ITEM_HEIGHT = 56
+
 export default function Header({ onMenuClick }: { onMenuClick?: () => void }) {
   const router = useRouter()
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
+  const [allEntries, setAllEntries] = useState<SearchEntry[]>([])
   const [results, setResults] = useState<SearchEntry[]>([])
   const [activeIdx, setActiveIdx] = useState(-1)
   const [index, setIndex] = useState<Fuse<SearchEntry> | null>(null)
   const [isMac] = useState(() => typeof navigator !== 'undefined' && /Mac|iPhone|iPad|iPod/.test(navigator.platform))
   const inputRef = useRef<HTMLInputElement>(null)
-  const listRef = useRef<HTMLUListElement>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     fetch('/search-index.json')
       .then(r => r.json())
       .then((data: SearchEntry[]) => {
+        setAllEntries(data)
         setIndex(new Fuse(data, {
           keys: ['title', 'description', 'category'],
           threshold: 0.4,
@@ -44,6 +49,15 @@ export default function Header({ onMenuClick }: { onMenuClick?: () => void }) {
       .catch(() => {})
   }, [])
 
+  const displayedItems = query.trim() ? results : allEntries
+
+  const virtualizer = useVirtualizer({
+    count: displayedItems.length,
+    getScrollElement: () => scrollRef.current,
+    estimateSize: () => ITEM_HEIGHT,
+    overscan: 5,
+  })
+
   const closeModal = useCallback(() => {
     setOpen(false)
     setQuery('')
@@ -51,7 +65,6 @@ export default function Header({ onMenuClick }: { onMenuClick?: () => void }) {
     setActiveIdx(-1)
   }, [])
 
-  // ⌘K global shortcut
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -69,29 +82,30 @@ export default function Header({ onMenuClick }: { onMenuClick?: () => void }) {
     setQuery(q)
     setActiveIdx(-1)
     if (!index || !q.trim()) { setResults([]); return }
-    setResults(index.search(q).slice(0, 8).map(r => r.item))
+    setResults(index.search(q).map(r => r.item))
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (results.length === 0) return
+    const items = displayedItems
+    if (items.length === 0) return
 
     if (e.key === 'ArrowDown') {
       e.preventDefault()
       setActiveIdx(i => {
-        const next = Math.min(i + 1, results.length - 1)
-        scrollItemIntoView(next)
+        const next = Math.min(i + 1, items.length - 1)
+        virtualizer.scrollToIndex(next, { align: 'auto' })
         return next
       })
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
       setActiveIdx(i => {
         const next = Math.max(i - 1, 0)
-        scrollItemIntoView(next)
+        virtualizer.scrollToIndex(next, { align: 'auto' })
         return next
       })
     } else if (e.key === 'Enter') {
       e.preventDefault()
-      const target = activeIdx >= 0 ? results[activeIdx] : results[0]
+      const target = activeIdx >= 0 ? items[activeIdx] : items[0]
       if (target) {
         router.push(target.href)
         closeModal()
@@ -99,20 +113,13 @@ export default function Header({ onMenuClick }: { onMenuClick?: () => void }) {
     }
   }
 
-  const scrollItemIntoView = (idx: number) => {
-    const list = listRef.current
-    if (!list) return
-    const item = list.children[idx] as HTMLElement | undefined
-    item?.scrollIntoView({ block: 'nearest' })
-  }
-
   const modal = (
     <div
-      className="fixed inset-0 z-[9999] flex items-start justify-center bg-black/60 px-4 pt-4 sm:pt-24"
+      className="fixed inset-0 z-[9999] flex items-start justify-center bg-black/60 px-4 pt-4 sm:pt-16"
       onClick={closeModal}
     >
       <div
-        className="flex max-h-[calc(100dvh-2rem)] w-full max-w-xl flex-col overflow-hidden rounded-xl border border-[#3d3d5c] bg-[#1e1e35] shadow-2xl sm:max-h-none"
+        className="flex w-full max-w-xl flex-col overflow-hidden rounded-xl border border-[#3d3d5c] bg-[#1e1e35] shadow-2xl max-h-[calc(100dvh-2rem)] sm:max-h-[540px]"
         onClick={e => e.stopPropagation()}
       >
         <div className="flex shrink-0 items-center gap-3 border-b border-[#2d2d4d] px-4 py-3">
@@ -132,48 +139,66 @@ export default function Header({ onMenuClick }: { onMenuClick?: () => void }) {
           <kbd className="font-mono text-xs text-gray-600">Esc</kbd>
         </div>
 
-        {results.length > 0 && (
-          <ul ref={listRef} className="min-h-0 flex-1 overflow-y-auto py-2 sm:max-h-80">
-            {results.map((r, i) => (
-              <li key={r.slug}>
-                <Link
-                  href={r.href}
-                  onClick={closeModal}
-                  onMouseEnter={() => setActiveIdx(i)}
-                  className={`flex items-start gap-3 px-4 py-2.5 transition-colors ${
-                    i === activeIdx ? 'bg-[#2a2a40]' : 'hover:bg-[#2a2a40]'
-                  }`}
-                >
-                  <span className={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-[10px] font-bold ${
-                    r.level === 'beginner' ? 'bg-green-900/50 text-green-400' :
-                    r.level === 'intermediate' ? 'bg-yellow-900/50 text-yellow-400' :
-                    'bg-pink-900/50 text-pink-400'
-                  }`}>
-                    {LEVEL_LABELS[r.level] || r.level}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm leading-tight text-white">{r.title}</p>
-                    <p className="mt-0.5 text-xs text-gray-500">{r.category}</p>
-                  </div>
-                  {i === activeIdx && (
-                    <kbd className="mt-0.5 shrink-0 rounded border border-gray-700 px-1 font-mono text-[10px] text-gray-600">↵</kbd>
-                  )}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        {query && results.length === 0 && (
-          <p className="py-8 text-center text-sm text-gray-500">결과 없음</p>
-        )}
-
-        {!query && (
-          <p className="py-5 text-center text-xs text-gray-600">
-            챕터 제목이나 키워드를 입력하세요 &nbsp;·&nbsp;
+        {!query.trim() && (
+          <p className="shrink-0 border-b border-[#2d2d4d] px-4 py-2 text-[11px] text-gray-600">
+            전체 {allEntries.length}개 챕터 &nbsp;·&nbsp;
             <span className="font-mono">↑↓</span> 이동 &nbsp;·&nbsp;
             <span className="font-mono">↵</span> 선택
           </p>
+        )}
+
+        {displayedItems.length > 0 && (
+          <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto py-1">
+            <div
+              style={{ height: `${virtualizer.getTotalSize()}px`, position: 'relative', width: '100%' }}
+            >
+              {virtualizer.getVirtualItems().map(virtualItem => {
+                const r = displayedItems[virtualItem.index]
+                const i = virtualItem.index
+                return (
+                  <div
+                    key={r.slug}
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: `${virtualItem.size}px`,
+                      transform: `translateY(${virtualItem.start}px)`,
+                    }}
+                  >
+                    <Link
+                      href={r.href}
+                      onClick={closeModal}
+                      onMouseEnter={() => setActiveIdx(i)}
+                      className={`flex h-full items-start gap-3 px-4 py-2.5 transition-colors ${
+                        i === activeIdx ? 'bg-[#2a2a40]' : 'hover:bg-[#2a2a40]'
+                      }`}
+                    >
+                      <span className={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-[10px] font-bold ${
+                        r.level === 'beginner' ? 'bg-green-900/50 text-green-400' :
+                        r.level === 'intermediate' ? 'bg-yellow-900/50 text-yellow-400' :
+                        'bg-pink-900/50 text-pink-400'
+                      }`}>
+                        {LEVEL_LABELS[r.level] || r.level}
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm leading-tight text-white">{r.title}</p>
+                        <p className="mt-0.5 text-xs text-gray-500">{r.category}</p>
+                      </div>
+                      {i === activeIdx && (
+                        <kbd className="mt-0.5 shrink-0 rounded border border-gray-700 px-1 font-mono text-[10px] text-gray-600">↵</kbd>
+                      )}
+                    </Link>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
+        {query.trim() && results.length === 0 && (
+          <p className="py-8 text-center text-sm text-gray-500">결과 없음</p>
         )}
       </div>
     </div>
