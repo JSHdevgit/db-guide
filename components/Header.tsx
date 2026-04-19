@@ -119,7 +119,7 @@ export default function Header({ onMenuClick }: { onMenuClick?: () => void }) {
       onClick={closeModal}
     >
       <div
-        className="flex w-full max-w-xl flex-col overflow-hidden rounded-xl border border-[#3d3d5c] bg-[#1e1e35] shadow-2xl max-h-[calc(100dvh-2rem)] sm:max-h-[540px]"
+        className="flex w-full max-w-xl max-h-[40dvh] flex-col overflow-hidden rounded-xl border border-[#3d3d5c] bg-[#1e1e35] shadow-2xl sm:max-h-135"
         onClick={e => e.stopPropagation()}
       >
         <div className="flex shrink-0 items-center gap-3 border-b border-[#2d2d4d] px-4 py-3">
