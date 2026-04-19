@@ -108,14 +108,14 @@ export default function Header({ onMenuClick }: { onMenuClick?: () => void }) {
 
   const modal = (
     <div
-      className="fixed inset-0 z-[9999] flex items-start justify-center bg-black/60 px-4 pt-24"
+      className="fixed inset-0 z-[9999] flex items-start justify-center bg-black/60 px-4 pt-4 sm:pt-24"
       onClick={closeModal}
     >
       <div
-        className="w-full max-w-xl overflow-hidden rounded-xl border border-[#3d3d5c] bg-[#1e1e35] shadow-2xl"
+        className="flex max-h-[calc(100dvh-2rem)] w-full max-w-xl flex-col overflow-hidden rounded-xl border border-[#3d3d5c] bg-[#1e1e35] shadow-2xl sm:max-h-none"
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-center gap-3 border-b border-[#2d2d4d] px-4 py-3">
+        <div className="flex shrink-0 items-center gap-3 border-b border-[#2d2d4d] px-4 py-3">
           <svg className="h-4 w-4 shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
@@ -125,7 +125,7 @@ export default function Header({ onMenuClick }: { onMenuClick?: () => void }) {
             onChange={e => handleSearch(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="챕터 검색..."
-            className="flex-1 bg-transparent text-sm text-white placeholder-gray-500 outline-none"
+            className="flex-1 bg-transparent text-base text-white placeholder-gray-500 outline-none sm:text-sm"
             autoFocus
             autoComplete="off"
           />
@@ -133,7 +133,7 @@ export default function Header({ onMenuClick }: { onMenuClick?: () => void }) {
         </div>
 
         {results.length > 0 && (
-          <ul ref={listRef} className="max-h-80 overflow-y-auto py-2">
+          <ul ref={listRef} className="min-h-0 flex-1 overflow-y-auto py-2 sm:max-h-80">
             {results.map((r, i) => (
               <li key={r.slug}>
                 <Link
