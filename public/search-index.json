@@ -1,0 +1,210 @@
+[
+  {
+    "slug": "advanced/performance/explain-analyze",
+    "href": "/advanced/performance/explain-analyze",
+    "title": "EXPLAIN ANALYZE 읽는 법",
+    "description": "쿼리 실행 계획을 분석해서 병목을 찾는 방법",
+    "level": "advanced",
+    "category": "성능 튜닝"
+  },
+  {
+    "slug": "advanced/performance/index-strategy",
+    "href": "/advanced/performance/index-strategy",
+    "title": "인덱스 전략과 최적화",
+    "description": "사용되지 않는 인덱스 제거, Bloat 관리, GIN/GiST 활용",
+    "level": "advanced",
+    "category": "성능 튜닝"
+  },
+  {
+    "slug": "advanced/performance/query-optimization",
+    "href": "/advanced/performance/query-optimization",
+    "title": "쿼리 최적화 실전",
+    "description": "느린 쿼리를 찾고 고치는 실전 패턴 — N+1, 페이징, 집계 최적화",
+    "level": "advanced",
+    "category": "성능 튜닝"
+  },
+  {
+    "slug": "advanced/operations/vacuum-autovacuum",
+    "href": "/advanced/operations/vacuum-autovacuum",
+    "title": "VACUUM과 Autovacuum",
+    "description": "PostgreSQL의 MVCC와 dead tuple 정리 — Autovacuum 튜닝",
+    "level": "advanced",
+    "category": "운영 관리"
+  },
+  {
+    "slug": "advanced/operations/partitioning",
+    "href": "/advanced/operations/partitioning",
+    "title": "테이블 파티셔닝",
+    "description": "대용량 테이블을 파티션으로 분할해서 성능과 관리 효율 높이기",
+    "level": "advanced",
+    "category": "운영 관리"
+  },
+  {
+    "slug": "advanced/operations/connection-pooling",
+    "href": "/advanced/operations/connection-pooling",
+    "title": "연결 풀링 (PgBouncer)",
+    "description": "DB 연결 수 제한과 PgBouncer로 연결 풀 관리하기",
+    "level": "advanced",
+    "category": "운영 관리"
+  },
+  {
+    "slug": "advanced/replication/replication-basics",
+    "href": "/advanced/replication/replication-basics",
+    "title": "복제 기초 (Replication)",
+    "description": "Streaming Replication으로 읽기 부하 분산과 고가용성 구성하기",
+    "level": "advanced",
+    "category": "복제 & 고가용성"
+  },
+  {
+    "slug": "beginner/sql-basics/what-is-sql",
+    "href": "/beginner/sql-basics/what-is-sql",
+    "title": "SQL이란 무엇인가",
+    "description": "데이터베이스와 SQL의 기본 개념을 이해합니다",
+    "level": "beginner",
+    "category": "SQL 기초"
+  },
+  {
+    "slug": "beginner/sql-basics/select-basics",
+    "href": "/beginner/sql-basics/select-basics",
+    "title": "SELECT 문 이해하기",
+    "description": "SELECT의 기본 문법과 실무에서 쓰는 패턴",
+    "level": "beginner",
+    "category": "SQL 기초"
+  },
+  {
+    "slug": "beginner/sql-basics/where-filtering",
+    "href": "/beginner/sql-basics/where-filtering",
+    "title": "WHERE와 조건 필터링",
+    "description": "WHERE 절의 다양한 연산자와 패턴 매칭",
+    "level": "beginner",
+    "category": "SQL 기초"
+  },
+  {
+    "slug": "beginner/sql-basics/joins",
+    "href": "/beginner/sql-basics/joins",
+    "title": "JOIN으로 테이블 합치기",
+    "description": "INNER JOIN, LEFT JOIN, RIGHT JOIN의 차이와 실무 패턴",
+    "level": "beginner",
+    "category": "SQL 기초"
+  },
+  {
+    "slug": "beginner/sql-basics/aggregate-functions",
+    "href": "/beginner/sql-basics/aggregate-functions",
+    "title": "집계 함수와 GROUP BY",
+    "description": "COUNT, SUM, AVG, GROUP BY, HAVING으로 데이터 요약하기",
+    "level": "beginner",
+    "category": "SQL 기초"
+  },
+  {
+    "slug": "beginner/sql-basics/insert-update-delete",
+    "href": "/beginner/sql-basics/insert-update-delete",
+    "title": "INSERT / UPDATE / DELETE",
+    "description": "데이터 삽입, 수정, 삭제 — 실수 없이 안전하게",
+    "level": "beginner",
+    "category": "SQL 기초"
+  },
+  {
+    "slug": "beginner/schema-design/normalization",
+    "href": "/beginner/schema-design/normalization",
+    "title": "정규화란 무엇인가",
+    "description": "데이터 중복을 줄이는 정규화 원칙 1NF ~ 3NF",
+    "level": "beginner",
+    "category": "스키마 설계"
+  },
+  {
+    "slug": "beginner/schema-design/primary-foreign-keys",
+    "href": "/beginner/schema-design/primary-foreign-keys",
+    "title": "기본 키와 외래 키",
+    "description": "PRIMARY KEY, FOREIGN KEY, 제약 조건으로 데이터 무결성 지키기",
+    "level": "beginner",
+    "category": "스키마 설계"
+  },
+  {
+    "slug": "beginner/schema-design/data-types",
+    "href": "/beginner/schema-design/data-types",
+    "title": "PostgreSQL 데이터 타입",
+    "description": "숫자, 문자, 날짜, JSON, 배열 — 상황에 맞는 타입 선택하기",
+    "level": "beginner",
+    "category": "스키마 설계"
+  },
+  {
+    "slug": "beginner/postgresql-basics/install-connect",
+    "href": "/beginner/postgresql-basics/install-connect",
+    "title": "PostgreSQL 설치와 연결",
+    "description": "로컬 환경 설치, Docker로 빠르게 시작하기, 연결 설정",
+    "level": "beginner",
+    "category": "PostgreSQL 기초"
+  },
+  {
+    "slug": "beginner/postgresql-basics/psql-commands",
+    "href": "/beginner/postgresql-basics/psql-commands",
+    "title": "psql 필수 명령어",
+    "description": "psql 터미널에서 자주 쓰는 메타 명령어와 팁",
+    "level": "beginner",
+    "category": "PostgreSQL 기초"
+  },
+  {
+    "slug": "intermediate/advanced-queries/subquery-cte",
+    "href": "/intermediate/advanced-queries/subquery-cte",
+    "title": "서브쿼리와 CTE",
+    "description": "서브쿼리와 WITH 절(CTE)로 복잡한 쿼리를 명확하게",
+    "level": "intermediate",
+    "category": "고급 쿼리"
+  },
+  {
+    "slug": "intermediate/advanced-queries/window-functions",
+    "href": "/intermediate/advanced-queries/window-functions",
+    "title": "Window 함수",
+    "description": "OVER(), PARTITION BY, ROW_NUMBER, RANK, LAG/LEAD",
+    "level": "intermediate",
+    "category": "고급 쿼리"
+  },
+  {
+    "slug": "intermediate/advanced-queries/json-operations",
+    "href": "/intermediate/advanced-queries/json-operations",
+    "title": "JSON & JSONB 활용",
+    "description": "PostgreSQL의 강력한 JSON 지원 — 조회, 수정, 인덱싱",
+    "level": "intermediate",
+    "category": "고급 쿼리"
+  },
+  {
+    "slug": "intermediate/advanced-queries/views-materialized",
+    "href": "/intermediate/advanced-queries/views-materialized",
+    "title": "뷰와 Materialized View",
+    "description": "복잡한 쿼리를 재사용하는 뷰, 성능을 위한 Materialized View",
+    "level": "intermediate",
+    "category": "고급 쿼리"
+  },
+  {
+    "slug": "intermediate/transactions/acid",
+    "href": "/intermediate/transactions/acid",
+    "title": "트랜잭션과 ACID",
+    "description": "트랜잭션의 개념과 ACID 속성 — 원자성, 일관성, 격리성, 지속성",
+    "level": "intermediate",
+    "category": "트랜잭션"
+  },
+  {
+    "slug": "intermediate/transactions/isolation-levels",
+    "href": "/intermediate/transactions/isolation-levels",
+    "title": "트랜잭션 격리 수준",
+    "description": "READ COMMITTED, REPEATABLE READ, SERIALIZABLE — 동시성과 정확성의 트레이드오프",
+    "level": "intermediate",
+    "category": "트랜잭션"
+  },
+  {
+    "slug": "intermediate/indexes/index-basics",
+    "href": "/intermediate/indexes/index-basics",
+    "title": "인덱스 기초",
+    "description": "B-Tree 인덱스의 동작 원리와 언제 인덱스를 만들어야 하는지",
+    "level": "intermediate",
+    "category": "인덱스"
+  },
+  {
+    "slug": "intermediate/indexes/composite-partial-indexes",
+    "href": "/intermediate/indexes/composite-partial-indexes",
+    "title": "복합 인덱스와 부분 인덱스",
+    "description": "여러 컬럼 인덱스와 조건부 인덱스로 성능 극대화하기",
+    "level": "intermediate",
+    "category": "인덱스"
+  }
+]

@@ -1,65 +1,89 @@
-import Image from "next/image";
+import Link from 'next/link'
+import Header from '@/components/Header'
+import { getLevelSummaries } from '@/lib/content'
 
-export default function Home() {
+const COLOR_MAP = {
+  green: {
+    badge: 'bg-green-100 text-green-800',
+    border: 'border-green-200 hover:border-green-400',
+    dot: 'bg-green-400',
+  },
+  yellow: {
+    badge: 'bg-yellow-100 text-yellow-800',
+    border: 'border-yellow-200 hover:border-yellow-400',
+    dot: 'bg-yellow-400',
+  },
+  pink: {
+    badge: 'bg-pink-100 text-pink-800',
+    border: 'border-pink-200 hover:border-pink-400',
+    dot: 'bg-pink-400',
+  },
+}
+
+export default function HomePage() {
+  const levels = getLevelSummaries()
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+
+      {/* 히어로 */}
+      <div className="bg-gradient-to-br from-[#1a1a2e] to-[#16213e] text-white py-14 px-6 text-center">
+        <h1 className="text-3xl font-bold mb-3 tracking-tight">데이터베이스 가이드</h1>
+        <p className="text-gray-400 text-sm max-w-md mx-auto leading-relaxed">
+          PostgreSQL &amp; SQL — 입문부터 고급 튜닝까지.<br />
+          실무에서 바로 쓰는 개념과 예제.
+        </p>
+      </div>
+
+      {/* 레벨 카드 */}
+      <div className="max-w-5xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+        {levels.map(level => {
+          const colors = COLOR_MAP[level.color]
+          const previewChapters = level.chapters.slice(0, 5)
+
+          return (
+            <Link
+              key={level.slug}
+              href={`/${level.slug}`}
+              className={`bg-white border-2 ${colors.border} rounded-2xl p-6 transition-all duration-200 hover:shadow-lg group`}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+              <span className={`inline-block text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4 ${colors.badge}`}>
+                {level.label}
+              </span>
+
+              <h2 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-violet-700 transition-colors">
+                {level.categories.slice(0, 2).join(' & ')}
+              </h2>
+
+              <p className="text-sm text-gray-500 leading-relaxed mb-5">
+                {level.description}
+              </p>
+
+              <ul className="space-y-1.5 mb-5">
+                {previewChapters.map(ch => (
+                  <li key={ch.slug} className="flex items-center gap-2 text-sm text-gray-600">
+                    <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${colors.dot}`} />
+                    {ch.title}
+                  </li>
+                ))}
+                {level.totalChapters > 5 && (
+                  <li className="text-xs text-gray-400 pl-3.5">+{level.totalChapters - 5}개 더</li>
+                )}
+              </ul>
+
+              <div className="pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-gray-400">
+                <span>{level.totalChapters}개 챕터</span>
+                <span>약 {level.totalReadingTime}분</span>
+              </div>
+            </Link>
+          )
+        })}
+      </div>
+
+      <footer className="text-center text-xs text-gray-400 pb-10">
+        운영자: <code className="bg-gray-100 px-1.5 py-0.5 rounded text-gray-600">/content</code> 폴더에 MD 파일 추가 후 재빌드하면 자동 반영됩니다.
+      </footer>
     </div>
-  );
+  )
 }
