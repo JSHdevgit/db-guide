@@ -78,7 +78,7 @@ function NicknameEditor({
       <div className="flex items-center gap-2 text-sm">
         <span className="text-gray-500">닉네임:</span>
         <input
-          className="border border-gray-300 rounded px-2 py-0.5 text-sm w-40 focus:outline-none focus:border-violet-400"
+          className="w-40 rounded border border-gray-300 px-2 py-0.5 text-sm focus:border-violet-400 focus:outline-none"
           value={value}
           onChange={e => setValue(e.target.value)}
           maxLength={40}
@@ -88,10 +88,10 @@ function NicknameEditor({
             if (e.key === 'Escape') setEditing(false)
           }}
         />
-        <button onClick={save} className="text-violet-700 hover:text-violet-900 text-xs font-medium">
+        <button onClick={save} className="text-xs font-medium text-violet-700 hover:text-violet-900">
           저장
         </button>
-        <button onClick={() => setEditing(false)} className="text-gray-400 hover:text-gray-600 text-xs">
+        <button onClick={() => setEditing(false)} className="text-xs text-gray-400 hover:text-gray-600">
           취소
         </button>
       </div>
@@ -101,8 +101,8 @@ function NicknameEditor({
   return (
     <div className="flex items-center gap-2 text-sm">
       <span className="text-gray-500">닉네임:</span>
-      <span className="text-gray-800 font-medium">{nickname}</span>
-      <button onClick={startEdit} className="text-violet-600 hover:text-violet-800 text-xs underline underline-offset-2">
+      <span className="font-medium text-gray-800">{nickname}</span>
+      <button onClick={startEdit} className="text-xs text-violet-600 underline underline-offset-2 hover:text-violet-800">
         변경
       </button>
     </div>
@@ -143,7 +143,7 @@ function CommentForm({
         <span className="font-medium text-gray-600">{nickname ?? '...'}</span> 으로 작성됩니다
       </p>
       <textarea
-        className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:border-violet-400 focus:ring-1 focus:ring-violet-100"
+        className="w-full resize-none rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-violet-400 focus:ring-1 focus:ring-violet-100 focus:outline-none"
         rows={3}
         placeholder="댓글을 입력하세요..."
         value={body}
@@ -153,7 +153,7 @@ function CommentForm({
       <div className="flex flex-wrap items-center gap-2">
         <input
           type="password"
-          className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm w-36 focus:outline-none focus:border-violet-400"
+          className="w-36 rounded-lg border border-gray-200 px-3 py-1.5 text-sm focus:border-violet-400 focus:outline-none"
           placeholder="비밀번호 (수정/삭제용)"
           value={password}
           onChange={e => setPassword(e.target.value)}
@@ -161,12 +161,12 @@ function CommentForm({
         <button
           type="submit"
           disabled={submitting || !body.trim() || !password}
-          className="bg-violet-700 hover:bg-violet-800 disabled:bg-gray-300 text-white text-sm px-4 py-1.5 rounded-lg transition-colors"
+          className="rounded-lg bg-violet-700 px-4 py-1.5 text-sm text-white transition-colors hover:bg-violet-800 disabled:bg-gray-300"
         >
           {submitting ? '등록 중...' : '댓글 등록'}
         </button>
       </div>
-      {error && <p className="text-red-500 text-xs">{error}</p>}
+      {error && <p className="text-xs text-red-500">{error}</p>}
     </form>
   )
 }
@@ -204,13 +204,13 @@ function ReplyForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="mt-2 bg-gray-50 rounded-xl p-3 border border-gray-100 space-y-2"
+      className="mt-2 space-y-2 rounded-xl border border-gray-100 bg-gray-50 p-3"
     >
       <p className="text-xs text-gray-400">
         <span className="font-medium text-gray-600">{nickname ?? '...'}</span> 으로 답글 작성
       </p>
       <textarea
-        className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:border-violet-400"
+        className="w-full resize-none rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-violet-400 focus:outline-none"
         rows={2}
         placeholder="답글을 입력하세요..."
         value={body}
@@ -221,7 +221,7 @@ function ReplyForm({
       <div className="flex flex-wrap items-center gap-2">
         <input
           type="password"
-          className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm w-32 focus:outline-none focus:border-violet-400"
+          className="w-32 rounded-lg border border-gray-200 px-3 py-1.5 text-sm focus:border-violet-400 focus:outline-none"
           placeholder="비밀번호"
           value={password}
           onChange={e => setPassword(e.target.value)}
@@ -229,19 +229,19 @@ function ReplyForm({
         <button
           type="submit"
           disabled={submitting || !body.trim() || !password}
-          className="bg-violet-700 hover:bg-violet-800 disabled:bg-gray-300 text-white text-sm px-3 py-1.5 rounded-lg transition-colors"
+          className="rounded-lg bg-violet-700 px-3 py-1.5 text-sm text-white transition-colors hover:bg-violet-800 disabled:bg-gray-300"
         >
           {submitting ? '등록 중...' : '답글 등록'}
         </button>
         <button
           type="button"
           onClick={onCancel}
-          className="text-gray-400 hover:text-gray-600 text-sm"
+          className="text-sm text-gray-400 hover:text-gray-600"
         >
           취소
         </button>
       </div>
-      {error && <p className="text-red-500 text-xs">{error}</p>}
+      {error && <p className="text-xs text-red-500">{error}</p>}
     </form>
   )
 }
@@ -368,32 +368,32 @@ function CommentItem({
 
   return (
     <div style={indentStyle}>
-      <div className="rounded-xl border border-gray-200 bg-white p-4 hover:border-gray-300 transition-colors">
+      <div className="rounded-xl border border-gray-200 bg-white p-4 transition-colors hover:border-gray-300">
         {/* Header */}
-        <div className="flex items-center justify-between mb-2">
+        <div className="mb-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="font-medium text-sm text-gray-800">{node.nickname}</span>
+            <span className="text-sm font-medium text-gray-800">{node.nickname}</span>
             {node.edited && (
-              <span className="text-xs text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">
+              <span className="rounded bg-gray-100 px-1.5 py-0.5 text-xs text-gray-400">
                 수정됨
               </span>
             )}
           </div>
-          <span className="text-xs text-gray-400 shrink-0 ml-2">
+          <span className="ml-2 shrink-0 text-xs text-gray-400">
             {formatRelativeTime(node.created_at)}
           </span>
         </div>
 
         {/* Body or edit forms */}
         {editStep === 'idle' && (
-          <p className="text-sm text-gray-700 whitespace-pre-wrap break-words">{node.body}</p>
+          <p className="text-sm break-words whitespace-pre-wrap text-gray-700">{node.body}</p>
         )}
 
         {editStep === 'password' && (
           <form onSubmit={handlePasswordCheck} className="mt-1 flex flex-wrap items-center gap-2">
             <input
               type="password"
-              className="border border-gray-200 rounded px-2 py-1 text-sm w-36 focus:outline-none focus:border-violet-400"
+              className="w-36 rounded border border-gray-200 px-2 py-1 text-sm focus:border-violet-400 focus:outline-none"
               placeholder="비밀번호 입력"
               value={editPassword}
               onChange={e => setEditPassword(e.target.value)}
@@ -402,32 +402,32 @@ function CommentItem({
             <button
               type="submit"
               disabled={actionLoading || !editPassword}
-              className="bg-violet-700 hover:bg-violet-800 disabled:bg-gray-300 text-white text-xs px-3 py-1.5 rounded-lg transition-colors"
+              className="rounded-lg bg-violet-700 px-3 py-1.5 text-xs text-white transition-colors hover:bg-violet-800 disabled:bg-gray-300"
             >
               {actionLoading ? '확인 중...' : '확인'}
             </button>
             <button
               type="button"
               onClick={cancelEditing}
-              className="text-gray-400 hover:text-gray-600 text-xs"
+              className="text-xs text-gray-400 hover:text-gray-600"
             >
               취소
             </button>
-            {actionError && <p className="w-full text-red-500 text-xs">{actionError}</p>}
+            {actionError && <p className="w-full text-xs text-red-500">{actionError}</p>}
           </form>
         )}
 
         {editStep === 'edit' && (
           <form onSubmit={handleEdit} className="mt-1 space-y-2">
             <input
-              className="w-full border border-gray-200 rounded px-2 py-1 text-sm focus:outline-none focus:border-violet-400"
+              className="w-full rounded border border-gray-200 px-2 py-1 text-sm focus:border-violet-400 focus:outline-none"
               value={editNickname}
               onChange={e => setEditNickname(e.target.value)}
               maxLength={40}
               placeholder="닉네임"
             />
             <textarea
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:border-violet-400"
+              className="w-full resize-none rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-violet-400 focus:outline-none"
               rows={3}
               value={editBody}
               onChange={e => setEditBody(e.target.value)}
@@ -438,19 +438,19 @@ function CommentItem({
               <button
                 type="submit"
                 disabled={actionLoading}
-                className="bg-violet-700 hover:bg-violet-800 disabled:bg-gray-300 text-white text-xs px-3 py-1.5 rounded-lg transition-colors"
+                className="rounded-lg bg-violet-700 px-3 py-1.5 text-xs text-white transition-colors hover:bg-violet-800 disabled:bg-gray-300"
               >
                 {actionLoading ? '저장 중...' : '저장'}
               </button>
               <button
                 type="button"
                 onClick={cancelEditing}
-                className="text-gray-400 hover:text-gray-600 text-xs"
+                className="text-xs text-gray-400 hover:text-gray-600"
               >
                 취소
               </button>
             </div>
-            {actionError && <p className="text-red-500 text-xs">{actionError}</p>}
+            {actionError && <p className="text-xs text-red-500">{actionError}</p>}
           </form>
         )}
 
@@ -459,7 +459,7 @@ function CommentItem({
           <form onSubmit={handleDelete} className="mt-2 flex flex-wrap items-center gap-2">
             <input
               type="password"
-              className="border border-red-200 rounded px-2 py-1 text-sm w-32 focus:outline-none focus:border-red-400"
+              className="w-32 rounded border border-red-200 px-2 py-1 text-sm focus:border-red-400 focus:outline-none"
               placeholder="비밀번호 입력"
               value={deletePassword}
               onChange={e => setDeletePassword(e.target.value)}
@@ -468,34 +468,34 @@ function CommentItem({
             <button
               type="submit"
               disabled={actionLoading || !deletePassword}
-              className="bg-red-500 hover:bg-red-600 disabled:bg-gray-300 text-white text-xs px-3 py-1.5 rounded-lg transition-colors"
+              className="rounded-lg bg-red-500 px-3 py-1.5 text-xs text-white transition-colors hover:bg-red-600 disabled:bg-gray-300"
             >
               삭제 확인
             </button>
             <button
               type="button"
               onClick={() => { setDeleting(false); setActionError(null) }}
-              className="text-gray-400 hover:text-gray-600 text-xs"
+              className="text-xs text-gray-400 hover:text-gray-600"
             >
               취소
             </button>
-            {actionError && <p className="text-red-500 text-xs">{actionError}</p>}
+            {actionError && <p className="text-xs text-red-500">{actionError}</p>}
           </form>
         )}
 
         {/* Actions */}
         {editStep === 'idle' && !deleting && (
-          <div className="flex items-center gap-3 mt-2">
+          <div className="mt-2 flex items-center gap-3">
             <button
               onClick={() => setShowReply(v => !v)}
-              className="text-violet-700 hover:text-violet-900 text-xs"
+              className="text-xs text-violet-700 hover:text-violet-900"
             >
               답글
             </button>
-            <button onClick={startEditing} className="text-gray-400 hover:text-gray-600 text-xs">
+            <button onClick={startEditing} className="text-xs text-gray-400 hover:text-gray-600">
               수정
             </button>
-            <button onClick={startDeleting} className="text-gray-400 hover:text-red-500 text-xs">
+            <button onClick={startDeleting} className="text-xs text-gray-400 hover:text-red-500">
               삭제
             </button>
           </div>
@@ -584,8 +584,8 @@ export default function Comments({ chapterSlug }: { chapterSlug: string }) {
   }
 
   return (
-    <section className="mt-12 pt-6 border-t border-gray-200">
-      <h2 className="text-lg font-semibold text-gray-800 mb-4">
+    <section className="mt-12 border-t border-gray-200 pt-6">
+      <h2 className="mb-4 text-lg font-semibold text-gray-800">
         댓글{flat.length > 0 ? ` (${flat.length})` : ''}
       </h2>
 
@@ -593,16 +593,16 @@ export default function Comments({ chapterSlug }: { chapterSlug: string }) {
         <NicknameEditor nickname={nickname} setNickname={setNickname} />
       </div>
 
-      <div className="rounded-xl border border-gray-200 bg-white p-4 mb-6">
+      <div className="mb-6 rounded-xl border border-gray-200 bg-white p-4">
         <CommentForm nickname={nickname} onSubmit={submitComment} />
       </div>
 
       {loading ? (
-        <div className="text-center text-gray-400 text-sm py-8">댓글을 불러오는 중...</div>
+        <div className="py-8 text-center text-sm text-gray-400">댓글을 불러오는 중...</div>
       ) : fetchError ? (
-        <div className="text-center text-red-400 text-sm py-4">{fetchError}</div>
+        <div className="py-4 text-center text-sm text-red-400">{fetchError}</div>
       ) : tree.length === 0 ? (
-        <div className="text-center text-gray-400 text-sm py-8">첫 번째 댓글을 남겨보세요!</div>
+        <div className="py-8 text-center text-sm text-gray-400">첫 번째 댓글을 남겨보세요!</div>
       ) : (
         <div className="space-y-3">
           {tree.map(node => (

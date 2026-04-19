@@ -55,45 +55,45 @@ export default async function LevelPage({ params }: { params: Promise<{ level: s
     <div className="min-h-screen bg-gray-50">
       <Header />
 
-      <div className="max-w-4xl mx-auto px-4 py-10">
+      <div className="mx-auto max-w-4xl px-4 py-10">
         <div className="mb-8">
-          <Link href="/" className="text-sm text-gray-400 hover:text-gray-600 mb-4 inline-flex items-center gap-1">
+          <Link href="/" className="mb-4 inline-flex items-center gap-1 text-sm text-gray-400 hover:text-gray-600">
             ← 홈으로
           </Link>
-          <div className="flex items-center gap-3 mt-2">
-            <span className={`text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full ${colors.badge}`}>
+          <div className="mt-2 flex items-center gap-3">
+            <span className={`rounded-full px-3 py-1 text-xs font-bold tracking-widest uppercase ${colors.badge}`}>
               {levelData.label}
             </span>
             <h1 className="text-2xl font-bold text-gray-900">{LEVEL_LABELS[level]} 가이드</h1>
           </div>
-          <p className="text-gray-500 text-sm mt-2">{levelData.description}</p>
-          <p className="text-xs text-gray-400 mt-1">{levelData.totalChapters}개 챕터 · 약 {levelData.totalReadingTime}분</p>
+          <p className="mt-2 text-sm text-gray-500">{levelData.description}</p>
+          <p className="mt-1 text-xs text-gray-400">{levelData.totalChapters}개 챕터 · 약 {levelData.totalReadingTime}분</p>
         </div>
 
         {/* 카테고리별 챕터 — 카테고리 헤더는 시각적 레이블만 (클릭 불가) */}
         <div className="space-y-8">
           {Object.entries(groups).map(([categoryName, chapters]) => (
             <div key={categoryName}>
-              <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
+              <h2 className="mb-3 text-xs font-semibold tracking-widest text-gray-400 uppercase">
                 {categoryName}
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {chapters.map(ch => (
                   <Link
                     key={ch.slug}
                     href={ch.href}
-                    className="bg-white border border-gray-200 hover:border-violet-300 hover:shadow-sm rounded-xl p-4 transition-all group"
+                    className="group rounded-xl border border-gray-200 bg-white p-4 transition-all hover:border-violet-300 hover:shadow-sm"
                   >
                     <div className="flex items-start gap-3">
-                      <span className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${colors.dot}`} />
+                      <span className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${colors.dot}`} />
                       <div>
-                        <p className="text-sm font-semibold text-gray-800 group-hover:text-violet-700 transition-colors leading-snug">
+                        <p className="text-sm leading-snug font-semibold text-gray-800 transition-colors group-hover:text-violet-700">
                           {ch.title}
                         </p>
                         {ch.description && (
-                          <p className="text-xs text-gray-500 mt-1 leading-relaxed">{ch.description}</p>
+                          <p className="mt-1 text-xs leading-relaxed text-gray-500">{ch.description}</p>
                         )}
-                        <p className="text-xs text-gray-400 mt-2">약 {ch.readingTime}분</p>
+                        <p className="mt-2 text-xs text-gray-400">약 {ch.readingTime}분</p>
                       </div>
                     </div>
                   </Link>

@@ -16,7 +16,7 @@ export default function ChapterLayout({ siblings, headings, children }: Props) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="flex min-h-screen flex-col bg-gray-50">
       <Header onMenuClick={() => setSidebarOpen(true)} />
 
       <div className="flex flex-1 overflow-hidden">
@@ -26,10 +26,10 @@ export default function ChapterLayout({ siblings, headings, children }: Props) {
           onClose={() => setSidebarOpen(false)}
         />
 
-        <div className="flex flex-1 min-w-0">
+        <div className="flex min-w-0 flex-1">
           {/* 메인 콘텐츠 */}
-          <main className="flex-1 min-w-0 overflow-y-auto">
-            <div className="max-w-2xl mx-auto px-6 py-8">
+          <main className="min-w-0 flex-1 overflow-y-auto">
+            <div className="mx-auto max-w-2xl px-6 py-8">
               {children}
             </div>
           </main>

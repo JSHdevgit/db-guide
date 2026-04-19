@@ -66,7 +66,7 @@ export default async function ChapterPage({
       <ProgressTracker slug={chapter.slug} />
 
       {/* 브레드크럼 */}
-      <nav className="text-xs text-gray-400 mb-5 flex items-center gap-1.5 flex-wrap">
+      <nav className="mb-5 flex flex-wrap items-center gap-1.5 text-xs text-gray-400">
         <Link href="/" className="hover:text-gray-600">홈</Link>
         <span>›</span>
         <Link href={`/${chapter.levelSlug}`} className="hover:text-gray-600">
@@ -78,8 +78,8 @@ export default async function ChapterPage({
         <span className="text-gray-700">{chapter.title}</span>
       </nav>
 
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">{chapter.title}</h1>
-      <div className="flex items-center gap-3 text-xs text-gray-400 mb-6">
+      <h1 className="mb-2 text-2xl font-bold text-gray-900">{chapter.title}</h1>
+      <div className="mb-6 flex items-center gap-3 text-xs text-gray-400">
         <span>📖 약 {chapter.readingTime}분</span>
         <span>🏷 {chapter.categoryName}</span>
       </div>
@@ -94,24 +94,24 @@ export default async function ChapterPage({
       />
 
       {/* 이전/다음 */}
-      <div className="flex justify-between mt-12 pt-6 border-t border-gray-200 gap-4">
+      <div className="mt-12 flex justify-between gap-4 border-t border-gray-200 pt-6">
         {prev ? (
           <Link
             href={prev.href}
-            className="flex-1 text-left bg-white border border-gray-200 hover:border-violet-300 rounded-xl px-4 py-3 text-sm transition-all group max-w-xs"
+            className="group max-w-xs flex-1 rounded-xl border border-gray-200 bg-white px-4 py-3 text-left text-sm transition-all hover:border-violet-300"
           >
-            <p className="text-xs text-gray-400 mb-1">← 이전</p>
-            <p className="text-gray-700 group-hover:text-violet-700 font-medium leading-tight">{prev.title}</p>
+            <p className="mb-1 text-xs text-gray-400">← 이전</p>
+            <p className="leading-tight font-medium text-gray-700 group-hover:text-violet-700">{prev.title}</p>
           </Link>
         ) : <div className="flex-1" />}
 
         {next ? (
           <Link
             href={next.href}
-            className="flex-1 text-right bg-white border border-gray-200 hover:border-violet-300 rounded-xl px-4 py-3 text-sm transition-all group max-w-xs ml-auto"
+            className="group ml-auto max-w-xs flex-1 rounded-xl border border-gray-200 bg-white px-4 py-3 text-right text-sm transition-all hover:border-violet-300"
           >
-            <p className="text-xs text-gray-400 mb-1">다음 →</p>
-            <p className="text-gray-700 group-hover:text-violet-700 font-medium leading-tight">{next.title}</p>
+            <p className="mb-1 text-xs text-gray-400">다음 →</p>
+            <p className="leading-tight font-medium text-gray-700 group-hover:text-violet-700">{next.title}</p>
           </Link>
         ) : <div className="flex-1" />}
       </div>
