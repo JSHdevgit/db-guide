@@ -1,8 +1,9 @@
 import { NextRequest } from 'next/server'
-import bcrypt from 'bcryptjs'
+import { verifyPassword } from '@/lib/password'
 import { getSupabaseAdmin } from '@/lib/supabase'
 
 export const runtime = 'edge'
+
 
 function isConfigured() {
   return !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
@@ -65,7 +66,7 @@ export async function PATCH(
     return Response.json({ error: 'NOT_FOUND' }, { status: 404 })
   }
 
-  const valid = await bcrypt.compare(password, existing.password_hash)
+  const valid = await verifyPassword(password, existing.password_hash)
   if (!valid) {
     return Response.json({ error: 'INVALID_PASSWORD' }, { status: 401 })
   }
@@ -127,7 +128,7 @@ export async function DELETE(
     return Response.json({ error: 'NOT_FOUND' }, { status: 404 })
   }
 
-  const valid = await bcrypt.compare(password, existing.password_hash)
+  const valid = await verifyPassword(password, existing.password_hash)
   if (!valid) {
     return Response.json({ error: 'INVALID_PASSWORD' }, { status: 401 })
   }

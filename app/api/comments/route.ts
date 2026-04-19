@@ -1,8 +1,9 @@
 import { NextRequest } from 'next/server'
-import bcrypt from 'bcryptjs'
+import { hashPassword, verifyPassword } from '@/lib/password'
 import { getSupabaseAdmin } from '@/lib/supabase'
 
 export const runtime = 'edge'
+
 
 function isConfigured() {
   return !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
@@ -84,7 +85,7 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const passwordHash = await bcrypt.hash(password, 10)
+  const passwordHash = await hashPassword(password)
 
   const { data, error } = await db
     .from('comments')

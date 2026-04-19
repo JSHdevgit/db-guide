@@ -17,6 +17,17 @@ type CommentData = {
 
 type CommentNode = CommentData & { children: CommentNode[] }
 
+const COMMENT_PWD_KEY = 'comment_password'
+
+function getSessionPassword(): string {
+  if (typeof window === 'undefined') return ''
+  return sessionStorage.getItem(COMMENT_PWD_KEY) ?? ''
+}
+
+function saveSessionPassword(pwd: string): void {
+  sessionStorage.setItem(COMMENT_PWD_KEY, pwd)
+}
+
 function buildTree(flat: CommentData[]): CommentNode[] {
   const map = new Map<string, CommentNode>()
   for (const c of flat) map.set(c.id, { ...c, children: [] })
@@ -106,7 +117,7 @@ function CommentForm({
   onSubmit: (body: string, password: string) => Promise<void>
 }) {
   const [body, setBody] = useState('')
-  const [password, setPassword] = useState('')
+  const [password, setPassword] = useState(getSessionPassword)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -117,8 +128,8 @@ function CommentForm({
     setError(null)
     try {
       await onSubmit(body.trim(), password)
+      saveSessionPassword(password)
       setBody('')
-      setPassword('')
     } catch (err) {
       setError(err instanceof Error ? err.message : '오류가 발생했습니다')
     } finally {
@@ -170,7 +181,7 @@ function ReplyForm({
   onCancel: () => void
 }) {
   const [body, setBody] = useState('')
-  const [password, setPassword] = useState('')
+  const [password, setPassword] = useState(getSessionPassword)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -181,8 +192,8 @@ function ReplyForm({
     setError(null)
     try {
       await onSubmit(body.trim(), password)
+      saveSessionPassword(password)
       setBody('')
-      setPassword('')
     } catch (err) {
       setError(err instanceof Error ? err.message : '오류가 발생했습니다')
     } finally {
@@ -249,7 +260,7 @@ function CommentItem({
   onRefresh: () => void
 }) {
   const [showReply, setShowReply] = useState(false)
-  const [editing, setEditing] = useState(false)
+  const [editStep, setEditStep] = useState<'idle' | 'password' | 'edit'>('idle')
   const [deleting, setDeleting] = useState(false)
   const [editBody, setEditBody] = useState(node.body)
   const [editNickname, setEditNickname] = useState(node.nickname)
@@ -262,26 +273,52 @@ function CommentItem({
     depth > 0 ? { marginLeft: `${Math.min(depth, 6) * 1.5}rem` } : undefined
 
   function startEditing() {
-    setEditBody(node.body)
-    setEditNickname(node.nickname)
-    setEditPassword('')
+    setEditPassword(getSessionPassword())
     setActionError(null)
-    setEditing(true)
+    setEditStep('password')
     setDeleting(false)
     setShowReply(false)
   }
 
+  function cancelEditing() {
+    setEditStep('idle')
+    setActionError(null)
+  }
+
   function startDeleting() {
-    setDeletePassword('')
+    setDeletePassword(getSessionPassword())
     setActionError(null)
     setDeleting(true)
-    setEditing(false)
+    setEditStep('idle')
     setShowReply(false)
+  }
+
+  async function handlePasswordCheck(e: React.FormEvent) {
+    e.preventDefault()
+    if (!editPassword) return
+    setActionLoading(true)
+    setActionError(null)
+    try {
+      const res = await fetch(`/api/comments/${node.id}/verify`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: editPassword }),
+      })
+      if (!res.ok) {
+        throw new Error('비밀번호가 틀렸습니다')
+      }
+      setEditBody(node.body)
+      setEditNickname(node.nickname)
+      setEditStep('edit')
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : '오류가 발생했습니다')
+    } finally {
+      setActionLoading(false)
+    }
   }
 
   async function handleEdit(e: React.FormEvent) {
     e.preventDefault()
-    if (!editPassword) return
     setActionLoading(true)
     setActionError(null)
     try {
@@ -298,7 +335,7 @@ function CommentItem({
         const data = await res.json()
         throw new Error(data.error === 'INVALID_PASSWORD' ? '비밀번호가 틀렸습니다' : '수정에 실패했습니다')
       }
-      setEditing(false)
+      setEditStep('idle')
       onRefresh()
     } catch (err) {
       setActionError(err instanceof Error ? err.message : '오류가 발생했습니다')
@@ -347,9 +384,41 @@ function CommentItem({
           </span>
         </div>
 
-        {/* Edit form or body */}
-        {editing ? (
-          <form onSubmit={handleEdit} className="space-y-2">
+        {/* Body or edit forms */}
+        {editStep === 'idle' && (
+          <p className="text-sm text-gray-700 whitespace-pre-wrap break-words">{node.body}</p>
+        )}
+
+        {editStep === 'password' && (
+          <form onSubmit={handlePasswordCheck} className="mt-1 flex flex-wrap items-center gap-2">
+            <input
+              type="password"
+              className="border border-gray-200 rounded px-2 py-1 text-sm w-36 focus:outline-none focus:border-violet-400"
+              placeholder="비밀번호 입력"
+              value={editPassword}
+              onChange={e => setEditPassword(e.target.value)}
+              autoFocus
+            />
+            <button
+              type="submit"
+              disabled={actionLoading || !editPassword}
+              className="bg-violet-700 hover:bg-violet-800 disabled:bg-gray-300 text-white text-xs px-3 py-1.5 rounded-lg transition-colors"
+            >
+              {actionLoading ? '확인 중...' : '확인'}
+            </button>
+            <button
+              type="button"
+              onClick={cancelEditing}
+              className="text-gray-400 hover:text-gray-600 text-xs"
+            >
+              취소
+            </button>
+            {actionError && <p className="w-full text-red-500 text-xs">{actionError}</p>}
+          </form>
+        )}
+
+        {editStep === 'edit' && (
+          <form onSubmit={handleEdit} className="mt-1 space-y-2">
             <input
               className="w-full border border-gray-200 rounded px-2 py-1 text-sm focus:outline-none focus:border-violet-400"
               value={editNickname}
@@ -366,23 +435,16 @@ function CommentItem({
               autoFocus
             />
             <div className="flex flex-wrap items-center gap-2">
-              <input
-                type="password"
-                className="border border-gray-200 rounded px-2 py-1 text-sm w-32 focus:outline-none focus:border-violet-400"
-                placeholder="비밀번호 확인"
-                value={editPassword}
-                onChange={e => setEditPassword(e.target.value)}
-              />
               <button
                 type="submit"
-                disabled={actionLoading || !editPassword}
+                disabled={actionLoading}
                 className="bg-violet-700 hover:bg-violet-800 disabled:bg-gray-300 text-white text-xs px-3 py-1.5 rounded-lg transition-colors"
               >
-                저장
+                {actionLoading ? '저장 중...' : '저장'}
               </button>
               <button
                 type="button"
-                onClick={() => { setEditing(false); setActionError(null) }}
+                onClick={cancelEditing}
                 className="text-gray-400 hover:text-gray-600 text-xs"
               >
                 취소
@@ -390,12 +452,10 @@ function CommentItem({
             </div>
             {actionError && <p className="text-red-500 text-xs">{actionError}</p>}
           </form>
-        ) : (
-          <p className="text-sm text-gray-700 whitespace-pre-wrap break-words">{node.body}</p>
         )}
 
         {/* Delete form */}
-        {deleting && !editing && (
+        {deleting && editStep === 'idle' && (
           <form onSubmit={handleDelete} className="mt-2 flex flex-wrap items-center gap-2">
             <input
               type="password"
@@ -424,7 +484,7 @@ function CommentItem({
         )}
 
         {/* Actions */}
-        {!editing && !deleting && (
+        {editStep === 'idle' && !deleting && (
           <div className="flex items-center gap-3 mt-2">
             <button
               onClick={() => setShowReply(v => !v)}

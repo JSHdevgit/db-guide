@@ -196,8 +196,13 @@ export default function Header({ onMenuClick }: { onMenuClick?: () => void }) {
           </button>
         )}
 
-        <Link href="/" className="text-violet-400 font-bold text-base tracking-tight shrink-0">
-          ⬡ DBGuide
+        <Link href="/" className="flex items-center gap-1.5 text-violet-400 font-bold text-base tracking-tight shrink-0">
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <ellipse cx="12" cy="5" rx="9" ry="3" />
+            <path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5" />
+            <path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3" />
+          </svg>
+          DBGuide
         </Link>
 
         <nav className="hidden md:flex gap-5 text-sm text-gray-400">

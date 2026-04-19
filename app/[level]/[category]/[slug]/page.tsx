@@ -30,8 +30,22 @@ export async function generateMetadata({
   const chapter = await getChapter(level, category, slug)
   if (!chapter) return {}
   return {
-    title: `${chapter.title} — DBGuide`,
+    title: chapter.title,
     description: chapter.description,
+    keywords: [chapter.title, chapter.categoryName, 'PostgreSQL', 'SQL', '데이터베이스'],
+    openGraph: {
+      type: 'article',
+      title: `${chapter.title} — DBGuide`,
+      description: chapter.description,
+    },
+    twitter: {
+      card: 'summary',
+      title: `${chapter.title} — DBGuide`,
+      description: chapter.description,
+    },
+    alternates: {
+      canonical: `/${chapter.levelSlug}/${chapter.categorySlug}/${chapter.chapterSlug}`,
+    },
   }
 }
 

@@ -20,6 +20,22 @@ export async function generateStaticParams() {
   return levels.map(l => ({ level: l.slug }))
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ level: string }> }) {
+  const { level } = await params
+  const levels = getLevelSummaries()
+  const levelData = levels.find(l => l.slug === level)
+  if (!levelData) return {}
+  const label = LEVEL_LABELS[level] ?? level
+  return {
+    title: `${label} 가이드 — PostgreSQL & SQL`,
+    description: levelData.description,
+    openGraph: {
+      title: `${label} 가이드 — DBGuide`,
+      description: levelData.description,
+    },
+  }
+}
+
 export default async function LevelPage({ params }: { params: Promise<{ level: string }> }) {
   const { level } = await params
   const levels = getLevelSummaries()
