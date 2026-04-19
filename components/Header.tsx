@@ -148,7 +148,7 @@ export default function Header({ onMenuClick }: { onMenuClick?: () => void }) {
         )}
 
         {displayedItems.length > 0 && (
-          <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto py-1">
+          <div ref={scrollRef} className="scrollbar-thin min-h-0 flex-1 overflow-y-auto py-1">
             <div
               style={{ height: `${virtualizer.getTotalSize()}px`, position: 'relative', width: '100%' }}
             >

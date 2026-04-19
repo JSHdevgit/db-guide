@@ -33,7 +33,7 @@ export default function Sidebar({ chapters, isOpen, onClose }: SidebarProps) {
   }, {})
 
   const sidebar = (
-    <aside className="flex w-56 shrink-0 flex-col overflow-y-auto border-r border-[#2d2d4d] bg-[#1a1a2e]">
+    <aside className="scrollbar-thin flex w-56 shrink-0 flex-col overflow-y-auto border-r border-[#2d2d4d] bg-[#1a1a2e]">
       <div className="border-b border-[#2d2d4d] px-4 py-3">
         <span className="text-xs font-semibold tracking-widest text-gray-500 uppercase">
           {LEVEL_LABELS[chapters[0]?.level] || '가이드'}

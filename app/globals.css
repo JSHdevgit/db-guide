@@ -65,6 +65,21 @@
   font-size: 0.85rem;
   border: 1px solid #1e293b;
   line-height: 1.65;
+  scrollbar-width: thin;
+  scrollbar-color: #3d3d5c transparent;
+}
+.prose pre::-webkit-scrollbar {
+  height: 4px;
+}
+.prose pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+.prose pre::-webkit-scrollbar-thumb {
+  background: #3d3d5c;
+  border-radius: 9999px;
+}
+.prose pre::-webkit-scrollbar-thumb:hover {
+  background: #6d6d9c;
 }
 .prose pre code {
   background: none;
@@ -82,6 +97,21 @@
   border: 1px solid #1e293b;
   line-height: 1.65;
   overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #3d3d5c transparent;
+}
+.prose .shiki::-webkit-scrollbar {
+  height: 4px;
+}
+.prose .shiki::-webkit-scrollbar-track {
+  background: transparent;
+}
+.prose .shiki::-webkit-scrollbar-thumb {
+  background: #3d3d5c;
+  border-radius: 9999px;
+}
+.prose .shiki::-webkit-scrollbar-thumb:hover {
+  background: #6d6d9c;
 }
 .prose .shiki code {
   background: none;
@@ -126,3 +156,22 @@
 
 /* TOC sticky */
 .top-13 { top: 52px; }
+
+/* 커스텀 스크롤바 — 검색 모달 & 사이드바 */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #3d3d5c transparent;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #3d3d5c;
+  border-radius: 9999px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #6d6d9c;
+}
